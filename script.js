@@ -1,4 +1,4 @@
-let display = document.getElementById("display");
+const display = document.getElementById("display");
 
 function appendValue(value) {
     display.value += value;
@@ -12,10 +12,32 @@ function deleteLast() {
     display.value = display.value.slice(0, -1);
 }
 
-function calculateResult() {
+function calculate() {
     try {
         display.value = eval(display.value);
     } catch {
         display.value = "Error";
     }
 }
+
+/* Keyboard Support */
+document.addEventListener("keydown", function (event) {
+    const key = event.key;
+
+    if (!isNaN(key) || "+-*/.%".includes(key)) {
+        appendValue(key);
+    }
+
+    if (key === "Enter") {
+        event.preventDefault();
+        calculate();
+    }
+
+    if (key === "Backspace") {
+        deleteLast();
+    }
+
+    if (key === "Delete") {
+        clearDisplay();
+    }
+});
